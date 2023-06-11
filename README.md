@@ -1,103 +1,68 @@
-# TSDX User Guide
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+# @vitrion/play-sound
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
+> **⚠️ This is a Fork**
+>
+> This package is a fork of [play-sound](https://www.npmjs.com/package/play-sound) as the original package is no longer maintained. Please use this forked version instead.
+>
+> **Note:** It is recommended to review the forked package, verify its compatibility with your project, and assess any potential risks or issues before adoption.
 
-## Commands
 
-TSDX scaffolds your new library inside `/src`.
+[![Downloads](https://img.shields.io/npm/dt/play-sound.svg)](https://npmjs.org/package/play-sound)
 
-To run TSDX, use:
+Play sounds by shelling out to one of the available audio players.
 
-```bash
-npm start # or yarn start
+## Installation
+
+```
+npm install play-sound
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+## Examples
 
-To do a one-off build, use `npm run build` or `yarn build`.
+```javascript
+const player = require('play-sound')(opts = {})
 
-To run tests, use `npm test` or `yarn test`.
+// $ mplayer foo.mp3
+player.play('foo.mp3', function(err){
+if (err) throw err
+})
 
-## Configuration
+// { timeout: 300 } will be passed to child process
+player.play('foo.mp3', { timeout: 300 }, function(err){
+if (err) throw err
+})
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
+// configure arguments for executable if any
+player.play('foo.mp3', { afplay: ['-v', 1 ] /* lower volume for afplay on OSX */ }, function(err){
+if (err) throw err
+})
 
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle Analysis
-
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+// access the node child_process in case you need to kill it on demand
+const audio = player.play('foo.mp3', function(err){
+if (err && !err.killed) throw err
+})
+audio.kill()
 ```
 
-### Rollup
+## Options
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+* `players` – List of available audio players to check. Default:
+    * [`mplayer`](https://www.mplayerhq.hu/)
+    * [`afplay`](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man1/afplay.1.html)
+    * [`mpg123`](http://www.mpg123.de/)
+    * [`mpg321`](http://mpg321.sourceforge.net/)
+    * [`play`](http://sox.sourceforge.net/)
+    * [`omxplayer`](https://github.com/popcornmix/omxplayer)
+    * [`aplay`](https://linux.die.net/man/1/aplay)
+    * [`cmdmp3`](https://github.com/jimlawless/cmdmp3)
+    * [`cvlc`](https://www.commandlinux.com/man-page/man1/cvlc.1.html)
+    * [`powershell`](https://docs.microsoft.com/en-us/powershell/)
+* `player` – Audio player to use (skips availability checks)
 
-### TypeScript
+## License
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+MIT
 
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
-```
-
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
-
-## Module Formats
-
-CJS, ESModules, and UMD module formats are supported.
-
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
-
-## Named Exports
-
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
+Please update this README to be more modern and change the text to be more professional. You can find the updated README [here](https://www.npmjs.com/package/@vitrion/play-sound).
