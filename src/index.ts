@@ -79,7 +79,5 @@ class Play {
   }
 }
 
-export default function (opts?: PlayOptions): Play {
-  return new Play(opts);
-}
+export default Play;
 

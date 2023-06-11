@@ -1,10 +1,10 @@
-import playSound from '../src/index';
+import Play from '../src/index';
 
 describe('PlaySound', () => {
-  let player: ReturnType<typeof playSound>;
+  let player: Play;
 
   beforeEach(() => {
-    player = playSound();
+    player = new Play();
   });
 
   // it('should play a local audio file', done => {

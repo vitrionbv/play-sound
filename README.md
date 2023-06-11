@@ -16,7 +16,7 @@ Play sounds by shelling out to one of the available audio players.
 ## Installation
 
 ```
-npm install play-sound
+npm install @vitrion/play-sound
 ```
 
 ## Examples
